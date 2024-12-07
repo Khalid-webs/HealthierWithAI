@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #202020; /* Primary color */
+            color: #FFFFFF; /* Text color */
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Header Styles */
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Results Container */
+        #results {
+            background-color: #404040; /* Secondary color */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            text-align: left;
+        }
+
+        /* Each Answer */
+        .answer {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* Button Container */
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px; /* Spacing between buttons */
+        }
+
+        /* Button Styles */
+        .button {
+            background-color: #606060;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #808080;
+        }
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: left;
+        }
+
+        .header h2 {
+            margin: 0;
+            line-height: 1; /* No space between lines */
+            font-size: 1.5rem;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>
+            <span>Healthier</span><br>
+            <span>With</span><br>
+            <span class="underline">AI.</span>
+        </h2>
+    </div>
+
+    <h1>Your Answers</h1>
+    <div id="results"></div>
+
+    <div class="button-container">
+        <button class="button" onclick="window.history.back()">Go Back</button>
+        <button class="button" onclick="confirmAnswers()">Confirm</button>
+    </div>
+
+    <script>
+        let results = "";
+        let allAnswersExist = true;
+    
+        // Loop through all 10 questions to get answers from localStorage
+        for (let i = 1; i <= 10; i++) {
+            let answer = localStorage.getItem('question' + i + 'Answer');
+            
+            // If any answer is not found, mark allAnswersExist as false
+            if (!answer) {
+                allAnswersExist = false;
+                break;
+            }
+    
+            // Append the answer to the results string using string concatenation
+            results += '<div class="answer">Question ' + i + ': ' + answer + '</div>';
+        }
+    
+        // Check if all answers exist
+        if (allAnswersExist) {
+            document.getElementById('results').innerHTML = results;
+        } else {
+            document.getElementById('results').innerHTML = "You haven't answered all the questions yet!";
+        }
+
+        // Redirect to workout.html while keeping localStorage intact
+        function confirmAnswers() {
+            if (allAnswersExist) {
+                // Redirect to workout.html
+                window.location.href = "workout.html";
+            } else {
+                alert("Please complete all questions before confirming!");
+            }
+        }
+    </script>
+</body>
+</html>

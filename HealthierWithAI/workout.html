@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Workout Routine</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #202020; /* Primary color */
+            color: #FFFFFF; /* Text color */
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Centered rectangle styling */
+        .routine-container {
+            background-color: #404040; /* Secondary color */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            text-align: left;
+            margin-top: 10px; /* Add spacing between title and box */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .routine {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+          /* Header Styles */
+          .header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: left;
+        }
+
+        .header h2 {
+            margin: 0;
+            line-height: 1; /* No space between lines */
+            font-size: 1.5rem;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>
+            <span>Healthier</span><br>
+            <span>With</span><br>
+            <span class="underline">AI.</span>
+        </h2>
+    </div>
+
+    <h1>Your Workout Routine</h1>
+    <div class="routine-container">
+        <div class="routine" id="workoutRoutine">Loading...</div>
+    </div>
+
+    <script>
+        // Fetch answers from localStorage
+        const answers = [];
+        for (let i = 1; i <= 10; i++) {
+            const answer = localStorage.getItem("question" + i + "Answer");
+            answers.push(answer);
+        }
+
+        // Helper function to calculate time ranges
+        function calculateTimeSlot(preferredTime, duration) {
+            const timeRanges = {
+                "6 AM - 9 AM": [6, 9],
+                "9 AM - 12 PM": [9, 12],
+                "12 PM - 6 PM": [12, 18],
+                "6 PM - 12 AM": [18, 24],
+            };
+
+            const durationsInMinutes = {
+                "Less than 20 minutes": 15,
+                "20 - 30 minutes": 25,
+                "30 - 45 minutes": 40,
+                "More than 45 minutes": 60,
+            };
+
+            const [startHour, endHour] = timeRanges[preferredTime] || [6, 9];
+            const workoutMinutes = durationsInMinutes[duration] || 30;
+
+            // Calculate the workout start and end times
+            const startTime = new Date();
+            startTime.setHours(startHour, 0, 0, 0);
+
+            const endTime = new Date(startTime);
+            endTime.setMinutes(startTime.getMinutes() + workoutMinutes);
+
+            return {
+                start: startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+                end: endTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            };
+        }
+
+        // Predefined logic to generate workout routine
+        function generateWorkoutRoutine(answers) {
+            if (!answers.every(answer => answer)) {
+                return "It seems some answers are missing. Please go back and complete all the questions.";
+            }
+
+            const daysPerWeek = answers[0]; // Days Per Week (Question 1)
+            const suitableTime = answers[1]; // Most Suitable Time (Question 2)
+            const workoutDuration = answers[5]; // Exercise Duration (Question 6)
+
+            const timeSlot = calculateTimeSlot(suitableTime, workoutDuration);
+            let workoutRoutine = "";
+
+            // Customize routine based on days per week
+            if (daysPerWeek === "1-2 days") {
+                workoutRoutine = `
+                    - *Day 1*: Light cardio and stretching from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Day 2*: Yoga session from ${timeSlot.start} to ${timeSlot.end}.<br>
+                `;
+            } else if (daysPerWeek === "3-4 days") {
+                workoutRoutine = `
+                    - *Day 1*: Cardio workout from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Day 2*: Strength training from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Day 3*: Yoga and flexibility from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Day 4*: High-intensity interval training from ${timeSlot.start} to ${timeSlot.end}.<br>
+                `;
+            } else if (daysPerWeek === "5-6 days") {
+                workoutRoutine = `
+                    - *Day 1*: Upper body strength from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Day 2*: Cardio workout from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Day 3*: Lower body workout from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Day 4*: Yoga session from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Day 5*: Full-body circuit training from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Day 6*: Active recovery and stretching from ${timeSlot.start} to ${timeSlot.end}.<br>
+                `;
+            } else if (daysPerWeek === "7 days") {
+                workoutRoutine = `
+                    - *Monday*: Upper body from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Tuesday*: Cardio from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Wednesday*: Lower body from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Thursday*: Core and yoga from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Friday*: Full-body circuit from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Saturday*: Cardio and flexibility from ${timeSlot.start} to ${timeSlot.end}.<br>
+                    - *Sunday*: Active recovery from ${timeSlot.start} to ${timeSlot.end}.<br>
+                `;
+            } else {
+                workoutRoutine = "No routine matched your preferences. Please check your answers.";
+            }
+
+            return workoutRoutine;
+        }
+
+        // Display workout routine
+        const workoutRoutine = generateWorkoutRoutine(answers);
+        document.getElementById("workoutRoutine").innerHTML = workoutRoutine;
+    </script>
+</body>
+</html>

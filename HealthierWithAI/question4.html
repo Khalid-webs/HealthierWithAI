@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Page</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #202020; /* Primary color */
+            color: #FFFFFF; /* Text color */
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: left;
+        }
+
+        .header h1 {
+            margin: 0;
+            line-height: 1; /* No space between lines */
+            font-size: 1.5rem;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+
+        /* Centered Question Card */
+        .question-card {
+            margin: auto;
+            width: 300px; /* Adjust width as needed */
+            background-color: #404040; /* Secondary color */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .question-title {
+            margin: 0 0 20px 0;
+            font-size: 1.8rem;
+        }
+
+        .options-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+             /* Back Button */
+             .back-button {
+            margin-bottom: 2px; /* Reduced space between Back and Next buttons */
+            background-color: #606060; /* Button color */
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #808080; /* Hover color */
+        }
+
+        /* Next Button */
+        .next-button {
+            margin-top: 2px; /* Reduced margin to bring it closer to the Back button */
+            background-color: #606060; /* Button color */
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+.next-button:hover {
+    background-color: #808080; /* Hover color */
+}
+    </style>
+</head>
+<body>
+    <!-- Top-left "Healthier With AI" -->
+    <div class="header">
+        <h1>
+            <span>Healthier</span><br>
+            <span>With</span><br>
+            <span class="underline">AI.</span>
+        </h1>
+    </div>
+
+    <!-- Centered question card -->
+    <div class="question-card">
+        <h2 class="question-title">4. What is your current fitness level?</h2>
+        <form class="options-form">
+            <label class="option"><input type="radio" name="option" value="Beginner"> Beginner</label><br>
+            <label class="option"><input type="radio" name="option" value="Intermediate"> Intermediate</label><br>
+            <label class="option"><input type="radio" name="option" value="Advanced"> Advanced</label><br>
+            <label class="option"><input type="radio" name="option" value="Not Sure"> Not Sure</label><br>
+            <button type="button" class="back-button" onclick="goBack()">Previous Question</button>
+            <button type="button" onclick="saveAnswer()" class="next-button">Next</button>
+        </form>
+    
+        <script>
+            function saveAnswer() {
+                const selectedOption = document.querySelector("input[name='option']:checked");
+    
+                if (selectedOption) {
+                    // Store the answer in localStorage
+                    localStorage.setItem('question4Answer', selectedOption.value);
+                    // Navigate to the next page
+                    window.location.href = 'question5.html'; // Change to your next page
+                } else {
+                    alert("Please select an option.");
+                }
+            }
+
+                              // Go to the previous question
+                              function goBack() {
+                 window.location.href = 'question3.html'; 
+                }
+                
+        </script>
+    
+    </div>
+</body>
+</html>
